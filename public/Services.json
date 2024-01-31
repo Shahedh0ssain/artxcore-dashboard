@@ -1,0 +1,57 @@
+[
+ 
+    {
+      "name":"Widding photography",
+      "id":1,
+      "picture": "https://i.ibb.co/cxhQqmJ/car-8.jpg",
+      "price": 740,
+      "quantity":10,
+      "dis":"We have been photographing babies, children and families. Photography is our full time profession and we truly love creating wonderful images of those you love most. "
+    },
+    {
+      "name":"Event photography",
+      "id":2,
+      "picture": "https://i.ibb.co/cxhQqmJ/car-8.jpg",
+      "price": 772,
+      "quantity":10,
+      "dis":"We are the Bangladesh’s top ranking video production company we specialise in commercial photography"
+    },
+    {
+      "name":"Product photography",
+      "id":3,
+      "picture": "https://i.ibb.co/cxhQqmJ/car-8.jpg",
+      "price": 924,
+      "quantity":10,
+      "dis":"Product photography are true portraits in our eye, and we love to create them in collaboration with our clients"
+    },
+    {
+      "name":"Widding photography",
+      "id":4,
+      "picture": "https://i.ibb.co/cxhQqmJ/car-8.jpg",
+      "price": 974,
+      "quantity":10,
+      "dis":"Widding photography are true portraits in our eye, and we love to create them in collaboration with our clients"
+  
+    },
+    {
+      "name":"Family photography",
+      "id":5,
+      "picture": "https://i.ibb.co/cxhQqmJ/car-8.jpg",
+      "price": 624,
+      "quantity":10,
+      "dis":"Family photography are true portraits in our eye, and we love to create them in collaboration with our clients"
+  
+    },
+    {
+        "name":"New Born", 
+        "id":6,   
+        "picture": "https://i.ibb.co/cxhQqmJ/car-8.jpg",
+        "price": 752,
+        "dis":"A family photoshoot is an incredible way to create some beautiful memories. Whether you want photos with babies or teenagers, you can get some delightful photos.",
+        "quantity":10
+        
+      }
+  
+  
+  
+  ]
