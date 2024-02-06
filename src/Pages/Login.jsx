@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from "react-router-dom";
 import Loading from '../Components/Loading';
 import { useSWRConfig } from 'swr';
+import toast from 'react-hot-toast';
 
 
 
@@ -42,10 +43,15 @@ const Login = () => {
                 body: JSON.stringify(data)
             })
                 .then(res => {
-
+                    console.log(res)
+                    if (res.status !== 200) {
+                        toast.success("No user found");
+                        // console.log("some this incorrect")
+                    }
                     return res.json();
                 })
                 .then(data => {
+                    console.log('login data', data)
                     if (data?.token) {
                         localStorage.setItem('AdminToken', data?.token);
                         mutate(['http://95.111.233.59:5000/return_user_detail/', data?.token]);

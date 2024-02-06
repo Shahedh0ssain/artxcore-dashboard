@@ -4,14 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 const Navber = () => {
 
-    // const [userType] = useUserTypeCheck();
-    // const [toggle, setToggle] = useState(false);
 
     let navigate = useNavigate();
     let from = "/";
     const token = localStorage.getItem('AdminToken');
 
-    // console.log("Navber", token)
 
     const navLink = [
 

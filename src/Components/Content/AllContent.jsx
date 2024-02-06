@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Loading from './Loading';
+import Loading from '../Loading';
 import toast from 'react-hot-toast';
 import useSWR, { mutate } from 'swr';
 
-import useUserTypeCheck from '../Hooks/useUserCheck';
-import fetcher from '../Components/authentation/Fetcher';
+import useUserTypeCheck from '../../Hooks/useUserCheck';
+import fetcher from '../authentation/Fetcher';
 
 const AllContent = () => {
 
@@ -14,25 +14,30 @@ const AllContent = () => {
     const [userTypeCheck, isLoadingC, errorC] = useUserTypeCheck();
     const user_type = userTypeCheck?.data?.user_type;
 
+    let url = 'http://95.111.233.59:5000/content/list/all/'
+
+    const { data: lists, isLoading, error } = useSWR(url, () => fetcher(url, token));
 
 
-    const { data: lists, isLoading, error } = useSWR('http://95.111.233.59:5000/content/list/all/', () => fetcher('http://95.111.233.59:5000/content/list/all/', token));
 
 
+    // useEffect(() => {
+    //     mutate('http://95.111.233.59:5000/content/list/all/')
+    // }, [user_type])
+
+    // console.log("user_type", user_type);
 
 
     if (lists) {
-        console.log("all lists :", lists)
+        // console.log("all lists :", lists)
     }
 
 
 
 
 
-    // const token = 'a07890319c66ca1f9195f224b3cc307565fa2441';
     const [dloading, setDloading] = useState(false);
-    // const [loading, setloading] = useState(false);
-    // const [users, setUsers] = useState([]);
+
 
     const itemsPerPage = 5; // Number of items to display per page
     const [currentPage, setCurrentPage] = useState(1);
@@ -53,7 +58,8 @@ const AllContent = () => {
     const deleteItem = id => {
 
         const proceed = window.confirm('Are you sure ?');
-        console.log(id)
+        let url = 'http://95.111.233.59:5000/content/list/all/'
+        // console.log(id)
 
         if (proceed) {
 
@@ -70,7 +76,7 @@ const AllContent = () => {
                     res.json()
                     console.log(res)
                     if (res.status === 200) {
-                        mutate(['http://95.111.233.59:5000/content/list/all/']);
+                        mutate(url);
                         toast.success("content delete sucessfully");
                         setDloading(false);
                     }

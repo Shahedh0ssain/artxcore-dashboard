@@ -9,33 +9,25 @@ import Loading from "../Loading";
 import { useNavigate } from "react-router-dom";
 
 
-export default function CreateSuperUser() {
+const CreateSuperUser = () => {
 
 
     const [userTypeSuper, isLoading, error,] = useUserTypeSuper();
     const [loading2, setLoading2] = useState(false);
+
     let navigate = useNavigate();
     let from = "/users";
-    // const token = localStorage.getItem('AdminToken');
-    const token = 'a07890319c66ca1f9195f224b3cc307565fa2441';
+    const token = localStorage.getItem('AdminToken');
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
 
+    const onSubmit = async (data) => {
 
-
-    const onSubmit = async data => {
-
-
+        console.log(data)
         setLoading2(true);
 
-        // console.log(data)
-        if (!token) {
-            toast.success("Token Unvalid");
-            return
-        }
-
-
+        // Additional code...
 
         fetch(`http://95.111.233.59:5000/create_user_supreme/`, {
             method: 'POST',
@@ -43,27 +35,27 @@ export default function CreateSuperUser() {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${token}`,
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
         })
-            .then(res => res.json())
-            .then(data => {
-
+            .then((res) => {
+                console.log("res", res)
+                return res.json()
+            })
+            .then((data) => {
+                setLoading2(false);
                 if (data.message) {
-                    setLoading2(false);
-                    // toast.success(data.message);
+                    toast.success(data.message);
                     navigate(from, { replace: true });
                 }
-
-
             })
-
-
+            .catch((error) => {
+                setLoading2(false);
+                console.error("Error:", error);
+                toast.error("An error occurred. Please try again.");
+            });
         setLoading2(false);
+
         reset();
-
-
-
-
     };
 
 
@@ -85,6 +77,7 @@ export default function CreateSuperUser() {
 
 
         <div className="bg-slate-50 h-screen">
+            {/* {loading2 && isLoading && <Loading />} */}
             <div className=' flex justify-center	items-center'>
                 <div className=" mt-5 card w-96 bg-base-100 shadow-xl">
                     <div className="card-body">
@@ -175,3 +168,4 @@ export default function CreateSuperUser() {
         </div>
     )
 }
+export default CreateSuperUser

@@ -93,20 +93,20 @@ const Users = () => {
                 .then(res => {
                     if (res.status === 200) {
                         toast.success('User deleted successfully');
-
+                        mutate(url);
                         // Use the callback of mutate to get the latest data
-                        mutate([url], async newData => {
-                            // Log data before mutate
-                            console.log('Data before mutate:', newData);
+                        // mutate([url], async newData => {
+                        //     // Log data before mutate
+                        //     console.log('Data before mutate:', newData);
 
-                            // Optionally, you can fetch the updated data from the server
-                            const updatedData = await fetcher(url, token);
+                        //     // Optionally, you can fetch the updated data from the server
+                        //     const updatedData = await fetcher(url, token);
 
-                            // Log data after mutate
-                            console.log('Data after mutate:', updatedData);
+                        //     // Log data after mutate
+                        //     console.log('Data after mutate:', updatedData);
 
-                            return updatedData; // Return the updated data to mutate
-                        }, false);
+                        //     return updatedData; // Return the updated data to mutate
+                        // }, false);
 
                         setDloading(false);
                     }

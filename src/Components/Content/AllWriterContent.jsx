@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Loading from './Loading';
+import Loading from '../Loading';
 import toast from 'react-hot-toast';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
-import fetcher from '../Components/authentation/Fetcher';
+import fetcher from '../authentation/Fetcher';
 
 const AllWriterContent = () => {
 
@@ -48,7 +48,7 @@ const AllWriterContent = () => {
 
             setDloading(true);
             fetch(`http://95.111.233.59:5000/content/delete_temp/${id}/`, {
-                method: 'DELETE',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Token ${token}`,

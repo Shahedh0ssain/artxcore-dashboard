@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 
-export default function CreateUser() {
+const CreateUser = () => {
 
 
 
@@ -22,12 +22,6 @@ export default function CreateUser() {
 
     const onSubmit = async data => {
 
-        console.log(data)
-
-        // if (!token) {
-        //     toast.success("Token Unvalid");
-        //     return
-        // }
 
         setLoading2(true);
 
@@ -39,11 +33,13 @@ export default function CreateUser() {
             body: JSON.stringify(data)
         })
             .then(res => {
-                res.json();
+
                 if (res.status === 201) {
                     toast.success('User Created Successfully');
                     setLoading2(false);
                 }
+
+                return res.json();
 
             })
             .then(data => {
@@ -54,7 +50,7 @@ export default function CreateUser() {
                 // }
 
             })
-        setLoading2(false);
+        // setLoading2(false);
         reset();
 
     };
@@ -150,3 +146,4 @@ export default function CreateUser() {
         </div>
     )
 }
+export default CreateUser

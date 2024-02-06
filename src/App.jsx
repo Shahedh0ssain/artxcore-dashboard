@@ -14,11 +14,17 @@ import { Toaster } from 'react-hot-toast';
 import Home from './Pages/Home';
 import CreateAdminUser from './Components/authentation/CreateAdminUser';
 import EmailVerify from './Components/authentation/EmailVerify';
-import ContentCreate from './Components/ContentCreate';
-import AllContent from './Components/AllContent';
-import MyContent from './Components/Mycontent';
-import UpdateContent from './Components/UpdateContent';
-import AllWriterContent from './Components/AllWriterContent';
+import ContentCreate from './Components/Content/ContentCreate';
+import AllContent from './Components/Content/AllContent';
+import UpdateContent from './Components/Content/UpdateContent';
+import AllWriterContent from './Components/Content/AllWriterContent';
+import CreateManu from './Components/Allmanu/CreateManu';
+import AllManu from './Components/Allmanu/AllManu';
+import ViewManu from './Components/Allmanu/ViewManu';
+import UpdateManu from './Components/Allmanu/UpdateManu';
+import ViewContent from './Components/Content/VIewContent';
+import AllDeleteContent from './Components/Content/AllDeleteContent';
+import AllDeleteManu from './Components/Allmanu/AllDeleteManu';
 
 function App() {
   return (
@@ -42,16 +48,21 @@ function App() {
             <Route path='/users/profileUpdate/:userId' element={<UpdateProfile />}></Route>
             <Route path='/allwritercontent' element={<AllWriterContent />}></Route>
             <Route element={<RequireAdmin></RequireAdmin>} >
+              {/* all content */}
               <Route path='/contentcreate' element={<ContentCreate />}></Route>
               <Route path='/allcontent' element={<AllContent />}></Route>
-              <Route path='/allcontent/content/:contentId' element={<MyContent />}></Route>
+              <Route path='/allcontent/content/:contentId' element={<ViewContent />}></Route>
               <Route path='/allcontent/updatecontent/:contentId' element={<UpdateContent />}></Route>
+              <Route path='/alldeletecontent' element={<AllDeleteContent />}></Route>
+              {/* all manu */}
+              <Route path='/createManu' element={<CreateManu />}></Route>
+              <Route path='/allmanu' element={<AllManu />}></Route>
+              <Route path='/allmanu/viewmanu/:manuId' element={<ViewManu />}></Route>
+              <Route path='/allmanu/updatemanu/:manuId' element={<UpdateManu />}></Route>
+              <Route path='/alldeletemanu' element={<AllDeleteManu />}></Route>
+
 
             </Route>
-            {/* <Route path='/contentcreate' element={<ContentCreate />}></Route>
-            <Route path='/allcontent' element={<AllContent />}></Route>
-            <Route path='/users/content/:contentId' element={<MyContent />}></Route>
-            <Route path='/users/updatecontent/:contentId' element={<UpdateContent />}></Route> */}
 
           </Route>
 

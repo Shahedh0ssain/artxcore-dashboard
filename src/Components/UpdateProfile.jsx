@@ -83,26 +83,6 @@ const UpdateProfile = () => {
 
                                 <h1 className='text-center text-xl'>Profile Update</h1>
 
-                                <div className='form-control w-full max-w-xs'>
-                                    <label className="label">
-                                        <span className="label-text">Username</span>
-                                    </label>
-                                    <Controller
-                                        name="username"
-                                        control={control}
-                                        defaultValue={users?.data?.username}
-                                        rules={{ required: 'This field is required' }}
-                                        render={({ field, fieldState }) => (
-                                            <>
-                                                <input
-                                                    className='input input-bordered w-full max-w-xs'
-                                                    {...field} />
-                                                {fieldState.error && <span>{fieldState.error.message}</span>}
-                                            </>
-                                        )}
-                                    />
-
-                                </div>
 
                                 {/* Email */}
 
@@ -169,7 +149,7 @@ const UpdateProfile = () => {
                                     {/* {errorMessage} */}
                                 </p>
 
-                                <p className="py-2">Already Update <Link className='link link-error' to='/users'>Go</Link></p>
+                                <p className="py-2">Already Update <Link className='link link-error' to='/allmanu'>Go</Link></p>
                                 {/* <input type="submit" /> */}
                                 <div className="card-actions justify-center ">
                                     <input className="btn btn-primary w-full" type="submit" value="Update" />

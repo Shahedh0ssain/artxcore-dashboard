@@ -1,6 +1,6 @@
 // fetcher.js
 
-const fetcher = async (url, token) => {
+const fetcher = async (url, token = '') => {
     try {
         const res = await fetch(url, {
             method: 'GET',
