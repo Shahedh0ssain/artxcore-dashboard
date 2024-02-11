@@ -22,7 +22,7 @@ const CreateManu = () => {
 
     const [ManuItems, isLoadingManu, errorManu] = useManuItems()
     const token = localStorage.getItem('AdminToken');
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
 
 
     if (isLoadingManu || loading2) {
@@ -43,29 +43,42 @@ const CreateManu = () => {
         const img = data.image[0]
         console.log("image", img)
 
-        fetch(`http://95.111.233.59:5000/content/create/`, {
+        // const formData = new FormData();
+        // formData.append("menu_name", menu_name);
+        // formData.append("parent_menu", parent_menu);
+        // formData.append("menu_link", menu_link);
+        // formData.append("menu_title", menu_title);
+        // formData.append("menu_meta_title", menu_meta_title);
+        // formData.append("menu_description", menu_description);
+        // formData.append("sequence", sequence);
+        // formData.append("image", img);
+
+        // console.log('formData', formData)
+
+        data = {
+            "menu_name": menu_name,
+            "parent_menu": parent_menu,
+            "menu_link": menu_link,
+            "menu_title": menu_title,
+            "menu_meta_title": menu_meta_title,
+            "menu_description": menu_description,
+            "sequence": sequence,
+            "image": img
+        }
+
+
+
+        fetch(`http://95.111.233.59:5000/menu/create/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${token}`,
             },
-            body: JSON.stringify(
-                {
-                    "menu_name": menu_name,
-                    "parent_menu": parent_menu,
-                    "menu_link": menu_link,
-                    "menu_title": menu_title,
-                    "menu_meta_title": menu_meta_title,
-                    "menu_description": menu_description,
-                    "sequence": sequence,
-                    "image": img
-
-                }
-            )
+            body: JSON.stringify(data)
         })
             .then(res => {
                 console.log(res)
-                if (res.status !== 200) {
+                if (res.status !== 201) {
                     toast.error("This didn't work.");
                 }
                 return res.json();
@@ -84,7 +97,7 @@ const CreateManu = () => {
 
         setLoading2(false);
 
-        // reset();
+        reset();
 
 
 
@@ -132,7 +145,7 @@ const CreateManu = () => {
                             <label className="form-control w-full  flex flex-row my-2">
 
                                 <input {...register("menu_link", { required: true })} type="text" placeholder=" menu_link here" className="mb-3 me-2 input input-bordered w-full max-w-xs" />
-                                <input {...register("menu_title")} type="text" placeholder="menu_title here" className="mb-3 input input-bordered w-full max-w-xs" />
+                                <input {...register("menu_title", { required: true })} type="text" placeholder="menu_title here" className="mb-3 input input-bordered w-full max-w-xs" />
 
                             </label>
 

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import fetcher from '../authentation/Fetcher';
 import Loading from '../Loading';
 import useManuItems from '../../Hooks/useManuItems';
+import toast from 'react-hot-toast';
 
 
 
@@ -19,7 +20,7 @@ const UpdateManu = () => {
 
     const { data: viewManu, isLoading, error } = useSWR(url, () => fetcher(url, token));
     const [ManuItems, isLoadingManu, errorManu] = useManuItems()
-
+    const [loading, setuLoading] = useState(false)
 
     if (isLoading || isLoadingManu) {
         console.log("loading")
@@ -38,37 +39,52 @@ const UpdateManu = () => {
 
     const onSubmit = data => {
 
-        console.log(data)
+
+        const { menu_description, menu_link, menu_meta_title, menu_name, image, menu_title, parent_menu, sequence } = data
+        const img = data.image[0]
+
         // console.log("dataa ", data)
-        // setuLoading(true)
-        // fetch(`http://95.111.233.59:5000/user_edit/${userId}/`, {
-        //     method: 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Token ${token}`,
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        //     .then(res => {
-        //         res.json();
-        //         if (res.status === 200) {
-        //             toast.success("User update successfully.")
-        //             setuLoading(false);
-        //             navigate(from, { replace: true });
-        //         }
-        //         if (res.status !== 200) {
-        //             toast.error("Something is rong.")
-        //             setuLoading(false);
-        //         }
 
-        //     })
-        //     .then(data => {
+        data = {
+            "menu_name": menu_name,
+            "parent_menu": parent_menu,
+            "menu_link": menu_link,
+            "menu_title": menu_title,
+            "menu_meta_title": menu_meta_title,
+            "menu_description": menu_description,
+            "sequence": sequence,
+            "image": img
+        }
 
-        //     });
+        setuLoading(true)
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`,
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => {
+                res.json();
+                if (res.status === 200) {
+                    toast.success("Manu update successfully.")
+                    setuLoading(false);
+                    // navigate(from, { replace: true });
+                }
+                if (res.status !== 200) {
+                    toast.error("Something was wrong.")
+                    setuLoading(false);
+                }
 
-        // reset();
-        // setuLoading(false);
-        // navigate(from, { replace: true });
+            })
+            .then(data => {
+
+            });
+
+        reset();
+        setuLoading(false);
+        navigate(from, { replace: true });
     };
 
     // useEffect(() => {

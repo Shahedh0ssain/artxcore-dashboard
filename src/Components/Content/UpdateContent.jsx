@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
 
 import toast from 'react-hot-toast';
 import useContent from '../../Hooks/useContent';
 import Loading from '../Loading';
-import ControllerDemo from '../Reuseable/ControllerDemo';
+// import ControllerDemo from '../Reuseable/ControllerDemo';
 import useContentType from '../../Hooks/useContentType';
 
 
@@ -14,20 +14,22 @@ const UpdateContent = () => {
 
 
     let { contentId } = useParams();
+    const token = localStorage.getItem('AdminToken');
 
     const [contentType, isLoadingType, errorType,] = useContentType();
-
     const [content, isLoading, error,] = useContent(contentId);
+    const [loading, setuLoading] = useState(false)
 
     if (content) {
-        // console.log("content", content)
+        // console.log("Update_content", content)
     }
-    if (error) {
-        toast.error(error?.message);
-        console.log("Error : ", error?.message)
+    if (error || errorType) {
+        // toast.error(error?.message);
+        console.log("Error found in update page  ")
     }
-    if (isLoading) {
+    if (isLoading || loading) {
         // return <Loading></Loading>
+        console.log('loading')
     }
 
 
@@ -37,55 +39,59 @@ const UpdateContent = () => {
     const { register, control, reset, handleSubmit } = useForm();
 
     const onSubmit = data => {
-        console.log("dataa ", data)
-        // setuLoading(true)
-        // fetch(`http://95.111.233.59:5000/user_edit/${userId}/`, {
-        //     method: 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Token ${token}`,
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        //     .then(res => {
-        //         res.json();
-        //         if (res.status === 200) {
-        //             toast.success("User update successfully.")
-        //             setuLoading(false);
-        //             navigate(from, { replace: true });
-        //         }
-        //         if (res.status !== 200) {
-        //             toast.error("Something is rong.")
-        //             setuLoading(false);
-        //         }
 
-        //     })
-        //     .then(data => {
+        console.log("dataa ", data);
 
-        //     });
+        const { content_type, title_type, content, image } = data;
+        const senddata = {
+            "content_type": content_type,
+            "title_type": title_type,
+            "image": img,
+            "content": content
+        }
 
-        // reset();
-        // setuLoading(false);
-        // navigate(from, { replace: true });
+        setuLoading(true)
+        fetch(`http://95.111.233.59:5000/update/${contentId}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`,
+            },
+            body: JSON.stringify(senddata)
+        })
+            .then(res => {
+                console.log("update data ", res)
+                if (res.status === 200) {
+                    toast.success("User update successfully.")
+                    setuLoading(false);
+                    // navigate(from, { replace: true });
+                }
+                if (res.status !== 200) {
+                    toast.error("Something was wrong.")
+                    setuLoading(false);
+                }
+                return res.json();
+
+            })
+            .then(data => {
+                console.log("update dataaaa  ", data)
+            });
+
+        reset();
+        setuLoading(false);
+        navigate(from, { replace: true });
     };
-
-    // useEffect(() => {
-    //     reset({
-    //         username: users?.data?.username || '',
-    //         email: users?.data?.email || '',
-    //     });
-    // }, [users])
 
 
 
 
 
     return (
-        <div className='bg-slate-50 h-screen'>
+        <div className=' h-screen bg-slate-50 overflow-x-auto'>
             <div className='flex tems-center '>
                 <div className='mx-auto  p-5 '>
-                    <div class="card w-96 bg-base-100 shadow-xl">
-                        <div class="card-body">
+                    <div className="card w-96 bg-base-100 shadow-xl">
+                        <div className="card-body">
 
                             {content ?
                                 <form className='' onSubmit={handleSubmit(onSubmit)}>
@@ -194,21 +200,76 @@ const UpdateContent = () => {
                                     </div>
 
 
+                                    {/* image? */}
+                                    <input {...register("image", { required: true })} type="file" className="my-4 file-input file-input-bordered file-input-primary w-full max-w-xs" />
+                                    {/* end */}
 
-
-                                    <label className="form-control w-full max-w-xs">
+                                    <label className="form-control w-full max-w-xs ">
                                         <p className="p-2">Content option</p>
+                                        {/* content title */}
+                                        <label className=" ">
+                                            {/* <p className="p-2">Content option</p> */}
+                                            <Controller
+                                                name="content.title"
+                                                control={control}
+                                                defaultValue={content?.content?.title}
+                                                rules={{ required: 'This field is required' }}
+                                                render={({ field, fieldState }) => (
+                                                    <>
+                                                        <input
+                                                            className='input input-bordered w-full max-w-xs mb-5'
+                                                            {...field} />
+                                                        {fieldState.error && <span>{fieldState.error.message}</span>}
+                                                    </>
+                                                )}
+                                            />
+                                        </label>
 
-                                        <input {...register("content.title")} type="text" placeholder="Title here" className="mb-5 input input-bordered w-full max-w-xs" />
-                                        <input {...register("content.metatitle")} type="text" placeholder="Meta Title" className="mb-5 input input-bordered w-full max-w-xs" />
-                                        <textarea {...register("content.description")} className="w-full mb-5 textarea textarea-bordered" placeholder="description"></textarea>
+                                        {/* <input {...register("content.title")} type="text" placeholder="Title here" className="mb-5 input input-bordered w-full max-w-xs" /> */}
+
+                                        {/* content metatitle */}
+                                        <label className=" ">
+                                            {/* <p className="p-2">Content option</p> */}
+                                            <Controller
+                                                name="content.metatitle"
+                                                control={control}
+                                                defaultValue={content?.content?.metatitle}
+                                                rules={{ required: 'This field is required' }}
+                                                render={({ field, fieldState }) => (
+                                                    <>
+                                                        <input
+                                                            className='input input-bordered w-full max-w-xs mb-5'
+                                                            {...field} />
+                                                        {fieldState.error && <span>{fieldState.error.message}</span>}
+                                                    </>
+                                                )}
+                                            />
+                                        </label>
+
+
+                                        {/* <input {...register("content.metatitle")} type="text" placeholder="Meta Title" className="mb-5 input input-bordered w-full max-w-xs" /> */}
+                                        {/* content description */}
+                                        <label className=" ">
+                                            {/* <p className="p-2">Content option</p> */}
+                                            <Controller
+                                                name="content.description   "
+                                                control={control}
+                                                defaultValue={content?.content?.description}
+                                                rules={{ required: 'This field is required' }}
+                                                render={({ field, fieldState }) => (
+                                                    <>
+                                                        <input
+                                                            className='input input-bordered w-full max-w-xs mb-5'
+                                                            {...field} />
+                                                        {fieldState.error && <span>{fieldState.error.message}</span>}
+                                                    </>
+                                                )}
+                                            />
+                                        </label>
+                                        {/* <textarea {...register("content.description")} className="w-full mb-5 textarea textarea-bordered" placeholder="description"></textarea> */}
 
                                     </label>
 
-                                    {/* {errorMessage} */}
-                                    {/* <p className='w-full overflow-hidden text-red-500' >
-                                    
-                                    </p> */}
 
                                     <p className="py-1 ps-2">Already Update <Link className='link link-error' to='/allcontent'>Go</Link></p>
                                     {/* <input type="submit" /> */}

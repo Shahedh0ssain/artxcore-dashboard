@@ -66,7 +66,7 @@ const AllWriterContent = () => {
                     return res.json()
                 })
                 .then(data => {
-                    console.log("deleted data",data)
+                    console.log("deleted data", data)
                 })
 
             setDloading(false)

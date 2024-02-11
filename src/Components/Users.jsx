@@ -191,25 +191,25 @@ const Users = () => {
 
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Username</th>
-                                <th>email</th>
-                                <th>User Type</th>
-                                <th>User role</th>
+                                <th className='text-base text-center font-bold'>No</th>
+                                <th className='text-base text-center'>Username</th>
+                                <th className='text-base text-center'>email</th>
+                                <th className='text-base text-center'>User Type</th>
+                                <th className='text-base text-center'>User role</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className=''>
 
                             {users &&
-                                currentItems.map((user, index) => <tr>
+                                currentItems.map((user, index) => <tr key={index}>
 
-                                    <th>{index + 1}</th>
+                                    <th className='text-center'>{index + 1}</th>
 
-                                    <td>{user?.username}</td>
-                                    <td>{user?.email}</td>
-                                    <td>{user?.user_type}</td>
+                                    <td className='text-center'>{user?.username}</td>
+                                    <td className='text-center'>{user?.email}</td>
+                                    <td className='text-center'>{user?.user_type}</td>
 
-                                    <td>
+                                    <td className='text-center'>
                                         <Link to={`profile/${user?.id}`} className='btn btn-outline btn-primary m-2'>View</Link>
                                         <Link to={`profileUpdate/${user?.id}`} className='btn btn-outline btn-primary m-2'>Edit</Link>
                                         <Link ><button onClick={() => deleteItem(user?.id)} className='btn btn-outline btn-error m-2'>

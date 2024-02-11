@@ -20,51 +20,30 @@ export default function ContentCreate() {
 
     const { register, handleSubmit, reset } = useForm();
 
-    // console.log("contentType", contentType?.data)
 
-    // const [formData, setFormData] = useState({
-    //     content_type: '',
-    //     title_type: '',
-    //     image: null,
-    //     content: {
-    //         title: '',
-    //         metatitle: '',
-    //         description: '',
-    //     },
-    // });
 
     const onSubmit = async (data) => {
 
+
+        console.log("data", data);
         const { content_type, title_type, content, image } = data;
 
-        const img = data.image[0]
+        const img = data.image[0];
+        console.log("image data : ", img)
+        // Shahedh00ssain
 
-        // JSON data
-        const jsonData = {
+        // const formData = new FormData();
+        // formData.append("content_type", content_type);
+        // formData.append("title_type", title_type);
+        // formData.append("image", img); // Append the file
+        // formData.append("content", JSON.stringify(content)); // Since content seems to be an object, stringify it
 
+        const senddata = {
             "content_type": content_type,
             "title_type": title_type,
-
+            "image": img,
             "content": content
-
-        };
-
-        // Create a FormData object for handling files
-        const formData = new FormData();
-        formData.append('image', img);
-        formData.append('json', JSON.stringify(jsonData));
-
-        // Create a FormData object for handling files
-        // const formData = new FormData();
-        // formData.append('content_type', data.content_type);
-        // formData.append('title_type', data.title_type);
-        // formData.append('content', data.content);
-        // formData.append('image', data.image);
-
-        // const img = data.image[0]
-
-
-
+        }
 
         fetch(`http://95.111.233.59:5000/content/create/`, {
             method: 'POST',
@@ -72,20 +51,13 @@ export default function ContentCreate() {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${token}`,
             },
-            body: formData
-            // body: JSON.stringify(
-            //     {
-            //         "content_type": content_type,
-            //         "title_type": title_type,
-            //         "image": img,
-            //         "content": content
-            //     }
-            // )
+
+            body: JSON.stringify(senddata)
         })
             .then(res => {
                 console.log("backend responsibe", res);
-                if (res.status !== 200) {
-                    toast.error("This didn't work.");
+                if (res.status !== 201) {
+                    toast.error("Failed to create the resource. ");
                 }
                 return res.json();
             })
@@ -126,7 +98,7 @@ export default function ContentCreate() {
     return (
 
 
-        <div className="bg-slate-50 snap-y">
+        <div className="bg-slate-50 overflow-x-auto">
             <div className=' flex justify-center	items-center'>
                 <div className=" mt-5 card w-96 bg-base-100 shadow-xl">
                     <div className="card-body">

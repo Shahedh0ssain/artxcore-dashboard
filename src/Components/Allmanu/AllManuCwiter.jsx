@@ -5,25 +5,33 @@ import fetcher from '../../Components/authentation/Fetcher';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading';
 import toast from 'react-hot-toast';
+import useUserTypeCheck from '../../Hooks/useUserCheck';
 
-const AllDeleteManu = () => {
+const AllManuCwiter = () => {
 
 
     const token = localStorage.getItem('AdminToken');
-    let url = 'http://95.111.233.59:5000/menu/list/all_temp/'
+    let url = 'http://95.111.233.59:5000/menu/list/all/';
+
+
     const { data: Manudata, isLoading, error } = useSWR(url, () => fetcher(url));
     const [dloading, setDloading] = useState(false);
 
+    const [userTypeCheck, isLoadingC, errorC] = useUserTypeCheck();
+    const user_type = userTypeCheck?.user_type;
+
+
+        
+
+    console.log("user_type", user_type)
 
 
 
-    if (isLoading || dloading) {
+    if (isLoading || isLoadingC || dloading) {
         return <Loading></Loading>
     }
-    if (dloading) {
-        console.log('setDloading...')
-        return <Loading></Loading>
-    }
+
+
     if (error) {
         console.log("error", error)
     }
@@ -34,6 +42,7 @@ const AllDeleteManu = () => {
 
         const proceed = window.confirm('Are you sure?');
 
+        console.log("delete", id);
 
         if (proceed) {
             setDloading(true);
@@ -46,7 +55,6 @@ const AllDeleteManu = () => {
                 },
             })
                 .then(res => {
-
                     if (res.status === 200) {
                         toast.success('Manu deleted successfully');
                         mutate(url);
@@ -59,52 +67,48 @@ const AllDeleteManu = () => {
                 })
 
             setDloading(false);
-
         }
-
     };
 
 
-    // const deleteItemContentWriter = id => {
+    const deleteItemContentWriter = id => {
 
-    //     const proceed = window.confirm('Are you sure ?');
-    //     console.log(id)
+        const proceed = window.confirm('Are you sure ?');
+        console.log("deleteItemContentWriter", id)
 
-    //     if (proceed) {
+        if (proceed) {
 
-    //         setDloading(true);
-    //         fetch(`http://95.111.233.59:5000/content/delete_temp/${id}/`, {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Token ${token}`,
-    //             },
+            setDloading(true);
+            fetch(`http://95.111.233.59:5000/menu/delete_temp/${id}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}`,
+                },
 
-    //         })
-    //             .then(res => {
+            })
+                .then(res => {
 
-    //                 console.log(res)
-    //                 if (res.status === 200) {
-    //                     toast.success("delete sucessfully by content writer");
-    //                     setDloading(false);
-    //                     mutate(url);
-    //                 }
-    //                 return res.json()
-    //             })
-    //             .then(data => {
-    //                 console.log("deleted data", data)
-    //             })
+                    console.log(res)
+                    if (res.status === 200) {
+                        toast.success("delete sucessfully by content writer");
+                        setDloading(false);
+                        mutate(url);
+                    }
+                    return res.json()
+                })
+                .then(data => {
+                    console.log("deleted data", data)
+                })
 
-    //         setDloading(false)
-    //     }
-
-
+            setDloading(false)
+        }
 
 
 
-    // };
 
 
+    };
 
 
 
@@ -130,7 +134,7 @@ const AllDeleteManu = () => {
                         <tbody className=''>
 
                             {Manudata &&
-                                Manudata.map((manu, index) => <tr key={index} >
+                                Manudata.map((manu, index) => <tr className=''>
 
                                     <th>{index + 1}</th>
 
@@ -145,16 +149,30 @@ const AllDeleteManu = () => {
                                     </td>
 
                                     <td>
-                                        <Link ><button onClick={() => deleteItem(manu?.id)} className='btn btn-outline btn-error m-2'>
-                                            {dloading === true ?
-                                                <span className="loading loading-dots loading-md"></span>
+                                        {user_type &&
+                                            user_type === "content_writer" ?
+                                            <Link ><button onClick={() => deleteItemContentWriter(manu?.id)} className='btn btn-outline btn-error m-2'>
+                                                {dloading === true ?
+                                                    <span className="loading loading-dots loading-md"></span>
 
-                                                :
-                                                <span>Delete</span>
+                                                    :
+                                                    <span>Delete</span>
 
-                                            }
+                                                }
 
-                                        </button></Link>
+                                            </button></Link>
+                                            :
+                                            <Link ><button onClick={() => deleteItem(manu?.id)} className='btn btn-outline btn-error m-2'>
+                                                {dloading === true ?
+                                                    <span className="loading loading-dots loading-md"></span>
+
+                                                    :
+                                                    <span>Delete</span>
+
+                                                }
+                                                {/* Delete */}
+                                            </button></Link>
+                                        }
 
                                     </td>
                                 </tr>)
@@ -163,8 +181,6 @@ const AllDeleteManu = () => {
 
                         </tbody>
                     </table>
-
-
                 </div>
 
 
@@ -178,4 +194,4 @@ const AllDeleteManu = () => {
     );
 };
 
-export default AllDeleteManu;
+export default AllManuCwiter;

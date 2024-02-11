@@ -2,13 +2,14 @@ import { Controller, useForm } from "react-hook-form";
 
 const ControllerDemo = ({ defaultValue, lable, name }) => {
 
-    const {  control  } = useForm();
+    const { control } = useForm();
 
-    // console.log(defaultValue)
+    // console.log(defaultValue);
+
     return (
         <>
             <div className='form-control w-full max-w-xs'>
-                <label className="label ms-2"> 
+                <label className="label ms-2">
                     <span className="label-text">{lable}</span>
                 </label>
                 <Controller

@@ -52,7 +52,9 @@ function App() {
               <Route path='/contentcreate' element={<ContentCreate />}></Route>
               <Route path='/allcontent' element={<AllContent />}></Route>
               <Route path='/allcontent/content/:contentId' element={<ViewContent />}></Route>
+              <Route path='/allwritercontent/content/:contentId' element={<ViewContent />}></Route>
               <Route path='/allcontent/updatecontent/:contentId' element={<UpdateContent />}></Route>
+              <Route path='/allwritercontent/updatecontent/:contentId' element={<UpdateContent />}></Route>
               <Route path='/alldeletecontent' element={<AllDeleteContent />}></Route>
               {/* all manu */}
               <Route path='/createManu' element={<CreateManu />}></Route>

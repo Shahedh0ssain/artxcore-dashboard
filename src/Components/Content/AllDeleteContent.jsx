@@ -13,12 +13,9 @@ const AllDeleteContent = () => {
     let url = 'http://95.111.233.59:5000/content/list_temp/all/'
     const token = localStorage.getItem('AdminToken');
     const [userTypeCheck, isLoadingC, errorC] = useUserTypeCheck();
-    const user_type = userTypeCheck?.data?.user_type;
 
     const { data: templist, isLoading, error } = useSWR(url, () => fetcher(url, token));
 
-
-    // const { data: templist, isLoading, error } = useSWR('http://95.111.233.59:5000/content/list/all/', () => fetcher('http://95.111.233.59:5000/content/list/all/', token));
 
     if (error || errorC) {
         console.log("error found all deleted content page")
@@ -26,7 +23,7 @@ const AllDeleteContent = () => {
 
 
     if (templist) {
-        console.log("all templist :", templist)
+        console.log("user Type:", userTypeCheck, templist)
     }
 
 
@@ -91,6 +88,8 @@ const AllDeleteContent = () => {
 
 
 
+
+
     if (dloading || isLoading || isLoadingC) {
         console.log("looo.....");
         return <Loading></Loading>
@@ -135,12 +134,11 @@ const AllDeleteContent = () => {
                                         {userTypeCheck &&
 
                                             <>
-                                                <Link to={`content/${list?.id}`} className='btn btn-outline btn-primary m-2'>View</Link>
-                                                <Link to={`updatecontent/${list?.id}`} className='btn btn-outline btn-primary m-2'>Edit</Link>
+                                               
                                                 <Link>
                                                     <button onClick={() => deleteItem(list?.id)} className='btn btn-outline btn-error m-2'>
                                                         {dloading === true ?
-                                                            <span class="loading loading-dots loading-md"></span>
+                                                            <span className="loading loading-dots loading-md"></span>
 
                                                             :
                                                             <span>Delete</span>
