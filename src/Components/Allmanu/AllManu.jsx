@@ -21,14 +21,9 @@ const AllManu = () => {
 
     // console.log("user_type", user_type)
 
-    if (isLoading || isLoadingC || dloading) {
-        return <Loading></Loading>
-    }
-    if (error || errorC) {
-        console.log("All manuData error")
-    }
 
     // pagination
+
     const itemsPerPage = 5;
     const { currentPage, paginate, getPaginationIndices } = usePagination(itemsPerPage);
 
@@ -111,6 +106,14 @@ const AllManu = () => {
 
 
 
+    if (isLoading || isLoadingC || dloading) {
+        return <Loading></Loading>
+    }
+
+    if (error || errorC) {
+        console.log("All manuData error")
+    }
+
 
     return (
         <div className=' h-screen bg-base-100 overflow-x-auto'>
@@ -169,7 +172,7 @@ const AllManu = () => {
                                                     <span>Delete</span>
 
                                                 }
-                                                {/* Delete */}
+
                                             </button></Link>
                                         }
 
