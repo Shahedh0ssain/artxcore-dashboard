@@ -22,7 +22,7 @@ import CreateManu from './Components/Allmanu/CreateManu';
 import AllManu from './Components/Allmanu/AllManu';
 import ViewManu from './Components/Allmanu/ViewManu';
 import UpdateManu from './Components/Allmanu/UpdateManu';
-import ViewContent from './Components/Content/VIewContent';
+import ViewContent from './Components/Content/ViewContent';
 import AllDeleteContent from './Components/Content/AllDeleteContent';
 import AllDeleteManu from './Components/Allmanu/AllDeleteManu';
 
